@@ -1,13 +1,82 @@
-# Discord Manga Recommendations Bot
+# Manga Recommendation Discord Bot
 
-A Discord bot that recommends manga, manhwa, or manhua based on user input. The bot uses various technologies such as Discord.py, OpenAI, and Jina.ai.
+This project is a Discord AI bot that recommends manga, manhwa, and manhua based on user messages using semantic embeddings and LLM-based intent classification.
 
-## Technologies Used
-* Discord.py: for interacting with the Discord API
-* OpenAI: for text analysis and recommendation generation
-* Jina.ai: for natural language processing and embedding generation
+The system combines:
+- Large language model classification (Groq API)
+- Text embedding generation (Jina embeddings API)
+- Cosine similarity search over a precomputed manga database
+- Discord real-time message processing
 
-## How to Run
-1. Clone the repository and install the required libraries: `pip install discord.py torch requests`
-2. Replace the placeholders in the code with your own API keys, tokens, and bot tokens.
-3. Run the bot using `python recommandationdiscordai.py`
+---
+
+## Features
+
+- Detects whether a user is requesting manga/manhwa/manhua recommendations
+- Uses an LLM to classify user intent into structured JSON
+- Generates semantic embeddings for user queries
+- Finds similar titles using cosine similarity search
+- Returns ranked recommendations with metadata (rating, tags, year, cover)
+
+---
+
+## How it works
+
+1. User sends a message in a monitored Discord channel
+2. LLM classifies the message:
+   - If not a request → bot replies with a helper message
+   - If request → continue pipeline
+3. User message is cleaned and embedded using Jina embeddings
+4. Cosine similarity is computed against stored manga embeddings
+5. Top matching titles are retrieved and sent to Discord
+
+---
+
+## Dataset
+
+The bot uses a precomputed library stored in:
+
+- titles
+- ratings
+- tags
+- year
+- covers
+- embeddings
+
+All data is loaded from a local JSON file.
+
+---
+
+## Tech Stack
+
+- Python
+- PyTorch
+- Discord.py
+- Groq API (LLM classification)
+- Jina Embeddings API
+- Cosine similarity search
+
+---
+
+## Limitations
+
+- Requires external API keys (Groq, Jina)
+- No persistent caching layer
+- Ranking is based purely on embedding similarity
+- No user personalization yet
+
+---
+
+## Future Improvements
+
+- Add caching layer for embeddings
+- Replace Groq classification with local lightweight model
+- Improve ranking with hybrid scoring (rating + similarity)
+- Add user preference memory system
+- Optimize batch embedding pipeline
+
+---
+
+## Warning
+
+This project is experimental and intended for learning purposes. API latency and rate limits may affect performance.
